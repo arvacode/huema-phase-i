@@ -207,10 +207,17 @@
             max-width: 52ch;
             margin: .75rem auto 0;
             color: var(--text);
+            text-wrap: balance;
         }
 
         .prose-lead.muted {
             color: var(--muted);
+        }
+
+        /* Desktop-only line split for lead text */
+        .prose-lead .line { display: inline; }
+        @media (min-width: 900px) {
+            .prose-lead .line { display: block; }
         }
 
         label {
@@ -652,8 +659,10 @@
                 <h1>Preserving cultural heritage, the human story.</h1>
                 <img src="art.svg" class="arts-img" alt="" aria-hidden="true" />
                 <br>
-                <p class="prose-lead muted">Every day, pieces of our collective human story<br>disappear, permanently
-                    lost to time.</p>
+                <p class="prose-lead muted">
+                    <span class="line">Every day, pieces of our collective human story</span>
+                    <span class="line">disappear, permanently lost to time.</span>
+                </p>
 
                 <div class="stats-row">
                     <!-- Cumulative loss framing (10-year) -->
