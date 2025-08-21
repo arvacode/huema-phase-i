@@ -1,0 +1,996 @@
+<!doctype html>
+<html lang="en">
+<!--
+     _    ______     ___    ____ ___  ____  _____ 
+    / \  |  _ \ \   / / \  / ___/ _ \|  _ \| ____|
+   / _ \ | |_) \ \ / / _ \| |  | | | | | | |  _|  
+  / ___ \|  _ < \ V / ___ \ |__| |_| | |_| | |___ 
+ /_/   \_\_| \_\ \_/_/   \_\____\___/|____/|_____|
+ | |__   ___ _ __ | |__ (_)_   _ _ __ ___         
+ | '_ \ / _ \ '_ \| '_ \| | | | | '_ ` _ \        
+ | | | |  __/ |_) | | | | | |_| | | | | | |       
+ |_| |_|\___| .__/|_| |_|_|\__,_|_| |_| |_|       
+            |_|                                   
+-->
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Huema • Cultural Archive</title>
+    <meta name="description" content="The digital cultural preservation archive" />
+
+    <style>
+        /* =========================================================
+           Huema — About.css
+           Order: Reset → Theme → Base → Layout → Typography → Nav
+                  → Hero → Ripple → Arts → Stats → Features → Timeline
+                  → Forms → Utilities → Media Queries
+        ========================================================== */
+
+        /* ========== Reset ========== */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        body,
+        h1,
+        h2,
+        h3,
+        p,
+        figure {
+            margin: 0;
+        }
+
+        ul[role="list"],
+        ol[role="list"] {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ========== Theme (light) ========== */
+        :root {
+            --bg: #ffffff;
+            --text: #111827;
+            /* slate-900 */
+            --muted: #6b7280;
+            /* gray-500 */
+            --brand: var(--text);
+            --brand-contrast: #ffffff;
+            --border: #e5e7eb;
+            /* gray-200 */
+            --container: 68rem;
+            /* ~1088px */
+            --radius: 14px;
+            --space: 1rem;
+        }
+
+        /* ========== Theme (dark) ========== */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0b0f17;
+                --text: #e5e7eb;
+                --muted: #9ca3af;
+                --brand: var(--text);
+                --brand-contrast: var(--bg);
+                --border: #1f2937;
+            }
+        }
+
+        /* ========== Base ========== */
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            font: 16px/1.55 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+            color: var(--text);
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: min(100% - 2rem, var(--container));
+            margin-inline: auto;
+        }
+
+        /* Layout blocks */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+            background: color-mix(in oklab, var(--bg) 95%, transparent);
+            backdrop-filter: blur(6px);
+        }
+
+        main {
+            flex: 1;
+            padding-block: 2.5rem;
+        }
+
+        section {
+            padding-block: 3.25rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        section:last-of-type {
+            border-bottom: none;
+        }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding-block: 1.5rem;
+            font-size: .9rem;
+            color: var(--muted);
+        }
+
+        /* ========== Typography ========== */
+
+        /* Contact link style: inherit color, no underline */
+        #contact a {
+          color: currentColor;
+          text-decoration: none;
+        }
+        #contact a:hover,
+        #contact a:visited {
+          color: currentColor;
+          text-decoration: none;
+        }
+        #contact a:focus-visible {
+          outline: 2px solid var(--text);
+          outline-offset: 2px;
+          text-decoration: none;
+        }
+        /* Footer link style: inherit color, no underline */
+        footer a {
+          color: currentColor;
+          text-decoration: none;
+        }
+        footer a:hover,
+        footer a:visited {
+          color: currentColor;
+          text-decoration: none;
+        }
+        footer a:focus-visible {
+          outline: 2px solid var(--text);
+          outline-offset: 2px;
+          text-decoration: none;
+        }
+        h1 {
+            font-size: clamp(1.8rem, 1rem + 3vw, 3rem);
+            line-height: 1.2;
+            margin: 0 auto;
+            text-align: center;
+            overflow: visible;
+            word-break: normal;
+        }
+
+        h2 {
+            font-size: clamp(1.5rem, 0.9rem + 2.2vw, 2.4rem);
+            line-height: 1.25;
+            margin: 1.5rem auto;
+            text-align: center;
+            overflow: visible;
+            word-break: normal;
+        }
+
+        .kicker {
+            font-size: .8rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .metric {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-variant-numeric: tabular-nums;
+            font-size: clamp(1.6rem, 1.1rem + 3vw, 3rem);
+            line-height: 1.1;
+            letter-spacing: .02em;
+        }
+
+        .unit {
+            font-size: .95rem;
+            color: var(--muted);
+            margin-left: .35rem;
+        }
+
+        .prose-lead {
+            text-align: center;
+            font-size: clamp(1.1rem, 0.9rem + 1.2vw, 1.5rem);
+            line-height: 1.6;
+            max-width: 52ch;
+            margin: .75rem auto 0;
+            color: var(--text);
+        }
+
+        .prose-lead.muted {
+            color: var(--muted);
+        }
+
+        label {
+            font-weight: 600;
+        }
+
+        /* ========== Nav ========== */
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: .75rem 0;
+            position: relative;
+        }
+
+        .brand {
+            font-weight: 700;
+            letter-spacing: .2px;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .brand-highlight {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: .5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            padding: .5rem .75rem;
+            border-radius: 999px;
+            outline: 1px solid transparent;
+            outline-offset: 2px;
+            transition: background-color .12s ease, outline-color .12s ease, color .12s ease;
+        }
+
+        .nav-links a[aria-current="page"],
+        .nav-links a:hover {
+            outline-color: var(--text);
+        }
+
+        .nav-links a:focus-visible {
+            background: var(--border);
+            outline: 2px solid var(--text);
+            outline-offset: 2px;
+        }
+
+        .nav-links a[aria-disabled="true"] {
+            color: var(--muted);
+            cursor: not-allowed;
+        }
+
+        .menu-btn {
+            display: none;
+            border: 1px solid var(--border);
+            background: transparent;
+            padding: .5rem .75rem;
+            border-radius: 999px;
+        }
+
+        /* ========== Hero ========== */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            gap: .75rem;
+            align-items: center;
+        }
+
+        /* ========== Ripple ========== */
+        .ripple-wrap {
+            padding-block: 1.25rem;
+            position: relative;
+            border-bottom: none;
+        }
+
+        .ripple {
+            --ripple-h: 220px;
+        }
+
+        .ripple canvas {
+            display: block;
+            width: 100%;
+            height: var(--ripple-h);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            image-rendering: pixelated;
+            background: var(--bg);
+        }
+
+        .ripple-overlay {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            pointer-events: none;
+        }
+
+        .ripple-tag {
+            color: #ffffff;
+            font-weight: 800;
+            font-size: clamp(1.75rem, 6vw, 4rem);
+            letter-spacing: .2em;
+            border: 0;
+            background: none;
+            padding: 0;
+            border-radius: 0;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .ripple-tag {
+                color: #000000;
+            }
+        }
+
+        /* ========== Arts banner ========== */
+        .arts-img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .arts-img {
+                filter: invert(1);
+            }
+        }
+
+        /* ========== Stats (counters) ========== */
+        .muted {
+            color: var(--muted);
+        }
+
+        .stat {
+            display: grid;
+            gap: .6rem;
+            padding: .9rem 0;
+        }
+
+        .stats-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            align-items: baseline;
+            width: 100%;
+            gap: 0;
+            margin-top: 1rem;
+        }
+
+        .stats-row .stat {
+            flex: 0 1 auto;
+            margin-top: 0;
+            text-align: center;
+        }
+
+        /* ========== Features (Solution) & shared hover with Timeline ========== */
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        /* Shared hover/lift */
+        .feature,
+        .timeline-item .content {
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.02);
+            transition: transform .12s ease, box-shadow .12s ease;
+            will-change: transform;
+            background: var(--bg);
+        }
+
+        .feature:hover,
+        .timeline-item .content:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
+        }
+
+        .feature {
+            flex: 1 1 22rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1rem 1rem 1rem 1.1rem;
+        }
+
+        .feature h3 {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            font-size: 1.1rem;
+            margin-bottom: .25rem;
+        }
+
+        .feature h3::before {
+            content: "※";
+            color: var(--brand);
+            font-size: .8rem;
+            line-height: 1;
+        }
+
+        .feature p {
+            margin: 0;
+        }
+
+        /* ========== Timeline ========== */
+        .timeline {
+            position: relative;
+            margin-top: 1rem;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 12px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+
+        .timeline-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: 1.25rem;
+        }
+
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 24px 1fr;
+            gap: .75rem;
+        }
+
+        .timeline-item .marker {
+            position: relative;
+            z-index: 1;
+            margin-top: .2rem;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--bg);
+            border: 2px solid var(--brand);
+            box-shadow: 0 0 0 4px color-mix(in oklab, var(--brand) 20%, transparent);
+        }
+
+        .timeline-item .content {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: .85rem 1rem;
+        }
+
+        .timeline-item h3 {
+            margin: 0 0 .25rem;
+            font-size: 1.05rem;
+        }
+
+        .timeline-item .phase {
+            font-weight: 800;
+            letter-spacing: .2px;
+        }
+
+        .timeline-item .meta {
+            color: var(--muted);
+            font-size: .9rem;
+            margin-bottom: .25rem;
+        }
+
+        /* ========== Forms (Google Form) ========== */
+        .form-embed {
+            margin: 1rem 0 1.5rem;
+        }
+
+        .form-embed iframe {
+            width: 100%;
+            height: clamp(700px, 90vh, 1200px);
+            min-height: 0;
+            border: 0;
+            border-radius: var(--radius);
+            background: var(--bg);
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: .65rem .75rem;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: transparent;
+            color: inherit;
+        }
+
+        textarea {
+            min-height: 8rem;
+        }
+
+        /* ========== Media Queries ========== */
+
+        /* Mobile nav */
+        @media (max-width:720px) {
+            .menu-btn {
+                display: inline-flex;
+                align-items: center;
+                gap: .5rem;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 100%;
+                background: var(--bg);
+                border-bottom: 1px solid var(--border);
+                padding: .75rem .5rem;
+                z-index: 999;
+            }
+
+            .nav[aria-expanded="true"] .nav-links {
+                display: flex;
+                flex-direction: column;
+                gap: .25rem;
+                width: 100%;
+                box-shadow: 0 12px 20px rgba(0, 0, 0, .08);
+            }
+
+            .nav[aria-expanded="true"] {
+                align-items: flex-start;
+            }
+
+            /* Stats: stack & center */
+            .stats-row {
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                gap: 0;
+            }
+
+            .stats-row .stat {
+                width: auto;
+            }
+
+            .stats-row .stat+.stat {
+                margin-top: 1rem;
+            }
+        }
+
+        /* Wide timeline */
+        @media (min-width:900px) {
+            .timeline::before {
+                left: 50%;
+            }
+
+            .timeline-list {
+                gap: 1.75rem;
+            }
+
+            .timeline-item {
+                grid-template-columns: 1fr 24px 1fr;
+                align-items: start;
+            }
+
+            .timeline-item:nth-child(odd) .content {
+                grid-column: 1 / 2;
+            }
+
+            .timeline-item:nth-child(odd) .marker {
+                grid-column: 2 / 3;
+                justify-self: center;
+            }
+
+            .timeline-item:nth-child(even) .content {
+                grid-column: 3 / 4;
+            }
+
+            .timeline-item:nth-child(even) .marker {
+                grid-column: 2 / 3;
+                justify-self: center;
+            }
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+
+            .feature,
+            .feature:hover,
+            .timeline-item .content,
+            .timeline-item .content:hover {
+                transition: none;
+                transform: none;
+            }
+
+            .nav-links a {
+                transition: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <nav class="nav" aria-label="Primary" aria-expanded="false">
+                <a class="brand" href="#home"><span class="brand-highlight">Huema</span></a>
+                <button class="menu-btn" aria-controls="nav-links" aria-expanded="false" id="menuButton"
+                    title="Toggle menu">
+                    <span>Menu</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" />
+                    </svg>
+                </button>
+                <div id="nav-links" class="nav-links">
+                    <a href="#contribute" data-route>Contribute</a>
+                    <a href="#browse" data-route aria-disabled="true" tabindex="-1">Browse (coming soon)</a>
+                    <a href="#contact" data-route>Contact</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main id="home">
+        <div class="container">
+            <section class="ripple ripple-wrap" aria-label="Water ripple">
+                <canvas id="rippleCanvas" aria-hidden="true"></canvas>
+                <div class="ripple-overlay" aria-hidden="true">
+                    <span class="ripple-tag">Huema</span>
+                </div>
+            </section>
+            <section class="hero" aria-label="Intro">
+                <h1>Preserving cultural heritage, the human story.</h1>
+                <img src="assets/art.svg" class="arts-img" alt="" aria-hidden="true" />
+                <br>
+                <p class="prose-lead muted">Every day, pieces of our collective human story<br>disappear, permanently
+                    lost to time.</p>
+
+                <div class="stats-row">
+                    <!-- Cumulative loss framing (10-year) -->
+                    <div class="stat" aria-live="polite">
+                        <div class="kicker">Items lost in the last 10 years</div>
+                        <div class="metric">
+                            <span id="cumTotalNumber">0</span><span class="unit">items</span>
+                        </div>
+                    </div>
+
+                    <!-- Catastrophe-inclusive average loss rate -->
+                    <div class="stat" aria-live="polite">
+                        <div class="kicker">Items lost since you opened this page</div>
+                        <div class="metric"><span id="catCount">0</span><span class="unit">items</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="solution" aria-labelledby="solution-title">
+                <h2>How much more are we willing to lose?</h2>
+                <p class="prose-lead muted">Huema is building a holistic, high-quality online archive of primary sources
+                    while capturing collection metadata.</p>
+                <br>
+                <div class="features">
+                    <article class="feature">
+                        <h3>Preservation-Focused</h3>
+                        <p>Captures both the source before it degrades and its context — detailed physical scans,
+                            mappings, recordings, and metadata on who collected the data, how it was acquired, and the
+                            context by which it was collected.</p>
+                    </article>
+                    <article class="feature">
+                        <h3>Non-Specialized</h3>
+                        <p>Represents all cultures and histories equitably by avoiding narrow, colonial, or
+                            institutional biases. Traditional archives are often siloed, specialized, and shaped by such
+                            perspectives.</p>
+                    </article>
+                    <article class="feature">
+                        <h3>Global Contributions</h3>
+                        <p>Unites sources from museums and universities alongside independent researchers and community
+                            historians, ensuring that histories from underrepresented cultures are preserved alongside
+                            dominant narratives.</p>
+                    </article>
+                    <article class="feature">
+                        <h3>Remove Barriers</h3>
+                        <p>Openly available so educators, researchers, and the public can explore our collective history
+                            without barriers, making the full breadth of humanity's story available to anyone, anywhere.
+                        </p>
+                    </article>
+                </div>
+                <br>
+            </section>
+
+            <section id="timeline" aria-labelledby="timeline-title">
+                <h2 id="timeline-title">Taking steps forward</h2>
+                <div class="timeline">
+                    <ol class="timeline-list">
+                        <li class="timeline-item">
+                            <div class="marker" aria-hidden="true"></div>
+                            <article class="content">
+                                <div class="meta">Current</div>
+                                <h3><span class="phase">Phase I</span> — Manual Collection &amp; Storage</h3>
+                                <p>Gather initial scans, recordings, and verified metadata from both local and global
+                                    contributors. This foundational dataset is the seed from which the archive will
+                                    grow.</p>
+                            </article>
+                        </li>
+                        <li class="timeline-item">
+                            <div class="marker" aria-hidden="true"></div>
+                            <article class="content">
+                                <div class="meta">Next</div>
+                                <h3><span class="phase">Phase II</span> — Platform Development</h3>
+                                <p>Build and launch a dedicated, in-depth digital platform that unifies data, supports
+                                    advanced metadata tagging, and utilizes AI-assisted research with public access for
+                                    the global community.</p>
+                            </article>
+                        </li>
+                        <li class="timeline-item">
+                            <div class="marker" aria-hidden="true"></div>
+                            <article class="content">
+                                <div class="meta">Future</div>
+                                <h3><span class="phase">Phase III</span> — Proactive Preservation Missions</h3>
+                                <p>Actively support preservation efforts for humanity's high-risk sources — including
+                                    UNESCO World Heritage sites considered "in danger", fragile artifacts and sites at
+                                    risk of decay or destruction, and endangered cultures with disappearing traditions.
+                                </p>
+                            </article>
+                        </li>
+                    </ol>
+                </div>
+            </section>
+
+            <section id="contribute" aria-labelledby="submit-title">
+                <h2 id="submit-title">Contribute</h2>
+                <div class="form-embed" role="region" aria-label="Submission form (Google Forms)">
+                    <iframe id="googleForm" title="Huema submission form" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        src="https://docs.google.com/forms/d/e/1FAIpQLSfiQuUSKGk29FVwIOJVlZe_CW1zhLq8qBMMdqlUWxlwy8uKBA/viewform?embedded=true"></iframe>
+                </div>
+            </section>
+
+            <section id="contact" aria-labelledby="contact-title">
+                <h2 id="contact-title">Contact</h2>
+                <p class="prose-lead muted"><a href="mailto:info@hephium.com">info@hephium.com</a></p>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <small>© <span id="year">2025</span> <a href="https://hephium.com" target="_blank" rel="noopener">Hephium LLC</a></small>
+        </div>
+    </footer>
+    <script>
+        // Minimal, drift-free counters (requestAnimationFrame + delta)
+        (function () {
+            const fmtInt = (n) => n.toLocaleString(undefined, { maximumFractionDigits: 0 });
+            const now = () => performance.now();
+
+            // Count-up for headline total (≈4s to target) with easing
+            function countUp(el, target, durationMs) {
+                if (!el) return;
+                const start = performance.now();
+                const startVal = 0;
+                const ease = (t) => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; // easeInOutQuad
+                function frame(ts) {
+                    const p = Math.min(1, (ts - start) / durationMs);
+                    const v = Math.round(startVal + (target - startVal) * ease(p));
+                    el.textContent = v.toLocaleString();
+                    if (p < 1) requestAnimationFrame(frame);
+                }
+                requestAnimationFrame(frame);
+            }
+
+            const ESTIMATE_TOTAL_10Y = 21000000;
+            countUp(document.getElementById('cumTotalNumber'), ESTIMATE_TOTAL_10Y, 4000);
+
+            const catEl = document.getElementById('catCount');
+            if (catEl) {
+                function makeCounter(intervalSec, onTick) {
+                    let acc = 0, last = now();
+                    function step() {
+                        const t = now();
+                        const dt = (t - last) / 1000;
+                        last = t;
+                        acc += dt;
+                        while (acc >= intervalSec) { acc -= intervalSec; onTick(); }
+                        requestAnimationFrame(step);
+                    }
+                    requestAnimationFrame(step);
+                }
+                makeCounter(17, () => {
+                    const n = (parseInt(catEl.dataset.n || '0', 10) + 1);
+                    catEl.dataset.n = n;
+                    catEl.textContent = fmtInt(n);
+                });
+            }
+        })();
+    </script>
+    <script>
+        // Lightweight ordered-dither water ripple
+        (function () {
+            const canvas = document.getElementById('rippleCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d', { alpha: false });
+            ctx.imageSmoothingEnabled = false;
+
+            // Colors from CSS variables for theme compliance
+            const getCSS = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim() || '#000';
+            function colors() {
+                return {
+                    fg: getCSS('--text') || '#111827',
+                    bg: getCSS('--bg') || '#ffffff'
+                };
+            }
+
+            // 4x4 Bayer matrix for ordered dithering
+            const B4 = [
+                [0, 8, 2, 10],
+                [12, 4, 14, 6],
+                [3, 11, 1, 9],
+                [15, 7, 13, 5]
+            ];
+            const B4N = 16; // normalization factor
+
+            // Render at a low internal resolution and scale up to keep the dither crisp
+            let internalW = 600; // logical width (kept small for speed)
+            let internalH = 0;   // computed from aspect
+
+            function resize() {
+                const container = document.querySelector('.container');
+                const cssWidth = container ? container.clientWidth : canvas.clientWidth || window.innerWidth;
+                const cssHeight = parseFloat(getComputedStyle(document.querySelector('.ripple')).getPropertyValue('--ripple-h')) || 220;
+
+                // Keep internal height proportional to preserve square-ish pixels
+                internalH = Math.max(120, Math.round(cssHeight * (internalW / cssWidth)));
+
+                canvas.width = internalW;
+                canvas.height = internalH;
+                // Set the display size via CSS (already 100% width + var height)
+            }
+
+            // Simple ripple height field: mixture of radial waves + slight drift
+            function heightField(x, y, t) {
+                // Normalize coordinates to [-1,1]
+                const u = (x / internalW) * 2 - 1;
+                const v = (y / internalH) * 2 - 1;
+                const r = Math.hypot(u, v);
+                // Two moving sources to keep it lively
+                const sx1 = 0.35 * Math.sin(t * 0.5);
+                const sy1 = 0.35 * Math.cos(t * 0.4);
+                const sx2 = -0.4 * Math.cos(t * 0.33);
+                const sy2 = 0.4 * Math.sin(t * 0.27);
+
+                const r1 = Math.hypot(u - sx1, v - sy1);
+                const r2 = Math.hypot(u - sx2, v - sy2);
+
+                // Combine sines with gentle attenuation
+                const wave =
+                    Math.sin(18 * r1 - t * 2.1) * Math.exp(-1.2 * r1) +
+                    Math.sin(16 * r2 - t * 1.8) * Math.exp(-1.1 * r2) +
+                    0.15 * Math.sin((u + v) * 8 - t * 0.7);
+
+                // Map to [0,1]
+                return 0.5 + 0.5 * wave;
+            }
+
+            function render(tms) {
+                const t = tms * 0.001; // seconds
+                const { fg, bg } = colors();
+                // Prepare a tiny ImageData buffer
+                const img = ctx.createImageData(internalW, internalH);
+                const data = img.data;
+
+                for (let y = 0; y < internalH; y++) {
+                    for (let x = 0; x < internalW; x++) {
+                        const g = heightField(x, y, t); // grayscale 0..1
+                        const threshold = (B4[y & 3][x & 3] + 0.5) / B4N; // ordered threshold 0..1
+                        const on = g > threshold; // choose fg or bg
+
+                        // parse fg/bg colors once into RGB
+                        // Simple hex parser (#rrggbb or #rgb); fallback to black/white
+                        const parse = (hex) => {
+                            const h = hex.replace('#', '');
+                            if (h.length === 3) return [
+                                parseInt(h[0] + h[0], 16),
+                                parseInt(h[1] + h[1], 16),
+                                parseInt(h[2] + h[2], 16)
+                            ];
+                            if (h.length === 6) return [
+                                parseInt(h.slice(0, 2), 16),
+                                parseInt(h.slice(2, 4), 16),
+                                parseInt(h.slice(4, 6), 16)
+                            ];
+                            return [0, 0, 0];
+                        };
+
+                        // Cache parsed colors outside inner loop (closure trick)
+                        if (!render._c) {
+                            render._c = { fg: parse(fg), bg: parse(bg) };
+                        } else if (render._lastFg !== fg || render._lastBg !== bg) {
+                            render._c = { fg: parse(fg), bg: parse(bg) };
+                        }
+                        render._lastFg = fg; render._lastBg = bg;
+
+                        const rgb = on ? render._c.fg : render._c.bg;
+                        const i = (y * internalW + x) * 4;
+                        data[i] = rgb[0];
+                        data[i + 1] = rgb[1];
+                        data[i + 2] = rgb[2];
+                        data[i + 3] = 255;
+                    }
+                }
+
+                ctx.putImageData(img, 0, 0);
+                requestAnimationFrame(render);
+            }
+
+            // Resize handling using ResizeObserver where available
+            const ro = new ResizeObserver(() => resize());
+            const container = document.querySelector('.container');
+            if (container && ro) ro.observe(container);
+            window.addEventListener('resize', resize);
+
+            // Initialize and start
+            resize();
+            requestAnimationFrame(render);
+
+            // Expose a tiny API for customization (height via CSS var or internalW)
+            window.huemaRipple = {
+                setHeight(px) {
+                    const el = document.querySelector('.ripple');
+                    if (el) el.style.setProperty('--ripple-h', px + 'px');
+                },
+                setInternalWidth(w) { internalW = Math.max(120, Math.min(640, Math.floor(w))); resize(); }
+            };
+        })();
+    </script>
+
+    <script>
+        // Mobile nav: isolated and minimal
+        (function () {
+            const nav = document.querySelector('nav.nav');
+            const btn = document.getElementById('menuButton');
+            const links = document.getElementById('nav-links');
+            if (!nav || !btn || !links) return;
+
+            function setExpanded(on) {
+                nav.setAttribute('aria-expanded', on ? 'true' : 'false');
+                btn.setAttribute('aria-expanded', on ? 'true' : 'false');
+            }
+
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const on = nav.getAttribute('aria-expanded') !== 'true';
+                setExpanded(on);
+            });
+
+            // Close when clicking outside
+            document.addEventListener('click', (e) => {
+                if (nav.getAttribute('aria-expanded') === 'true' && !nav.contains(e.target)) {
+                    setExpanded(false);
+                }
+            });
+
+            // Close when resizing back to desktop
+            let lastW = window.innerWidth;
+            window.addEventListener('resize', () => {
+                const w = window.innerWidth;
+                if (w > 720 && lastW <= 720) setExpanded(false);
+                lastW = w;
+            });
+
+            // Optional: close on Escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') setExpanded(false);
+            });
+        })();
+    </script>
+</body>
+
+</html>
