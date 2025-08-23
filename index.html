@@ -501,11 +501,19 @@
 
         .form-embed iframe {
             width: 100%;
-            height: clamp(700px, 90vh, 1200px);
+            height: var(--iframe-h, clamp(700px, 90vh, 1200px));
+            max-height: var(--iframe-max-h, 38rem);
             min-height: 0;
             border: 0;
             border-radius: var(--radius);
             background: var(--bg);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .form-embed iframe {
+                background: #ffffff;      /* ensure white canvas in dark mode */
+                color-scheme: light;      /* hint to embedded UA controls */
+            }
         }
 
         input,
@@ -756,7 +764,7 @@
 
             <section id="contribute" aria-labelledby="submit-title">
                 <h2 id="submit-title">Contribute</h2>
-                <div class="form-embed" role="region" aria-label="Submission form (Google Forms)">
+                <div class="form-embed" role="region" aria-label="Submission form (Google Forms)" style="--iframe-max-h: 16rem;">
                     <iframe id="googleForm" title="Huema submission form" loading="lazy"
                         referrerpolicy="no-referrer-when-downgrade"
                         src="https://docs.google.com/forms/d/e/1FAIpQLSfiQuUSKGk29FVwIOJVlZe_CW1zhLq8qBMMdqlUWxlwy8uKBA/viewform?embedded=true"></iframe>
@@ -764,7 +772,8 @@
             </section>
 
             <section id="contact" aria-labelledby="contact-title">
-                <div class="form-embed" role="region" aria-label="Submission form (Google Forms)">
+                <h2 id="contact-title">Contact</h2>
+                <div class="form-embed" role="region" aria-label="Submission form (Google Forms)" style="--iframe-max-h: 46rem;">
                     <iframe id="googleForm" title="Huema contact form" loading="lazy"
                         referrerpolicy="no-referrer-when-downgrade"
                         src="https://docs.google.com/forms/d/e/1FAIpQLSfAgvOotuvJH88EiJ9Z6uwI_Tvq2Gijh3sMKHS89yIE6Y7rnw/viewform?embedded=true"></iframe>
